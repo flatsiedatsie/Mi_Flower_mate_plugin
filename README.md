@@ -14,3 +14,10 @@ You also need the Bluepy library to be installed:
 Scan for your Flower Mates to find their mac-addresses:
 
   sudo hcitool lescan
+
+
+It builds on the work by Daniel Matuschek, who created a great library for the Flower Mate devices.
+https://pypi.python.org/pypi/miflora
+
+As well as the original domoticz script created by Tristan:
+https://github.com/Tristan79/miflora
