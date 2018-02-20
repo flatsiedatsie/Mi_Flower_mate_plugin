@@ -1,5 +1,5 @@
 # Mi_Flower_mate_plugin
-A plugin for Domoticz, the open source home automation software, which allows it to easily connect to Xiaomi Mi Flower Mate devices
+A plugin for Domoticz, the open source home automation software, which allows it to easily connect to Xiaomi Mi Flower Mate devices.
 
 ## INSTALLATION
 
