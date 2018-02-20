@@ -21,6 +21,15 @@ Scan for your Flower Mates to find their mac-addresses:
   sudo hcitool lescan
 
 
+## Links
+
+Detailed installation instructions can be found on the Domoticz wiki:
+https://www.domoticz.com/wiki/Plugins/Mi_flower_mate
+
+Discussion about the plugin can be found here:
+https://www.domoticz.com/forum/viewtopic.php?f=65&t=22281
+
+
 ## Thanks to
 
 This plugin builds on the work by Daniel Matuschek, who created a great library for the Flower Mate devices.<br/>
