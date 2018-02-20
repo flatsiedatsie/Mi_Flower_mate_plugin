@@ -23,8 +23,8 @@ Scan for your Flower Mates to find their mac-addresses:
 
 ## Thanks to
 
-This plugin builds on the work by Daniel Matuschek, who created a great library for the Flower Mate devices.
+This plugin builds on the work by Daniel Matuschek, who created a great library for the Flower Mate devices.<br/>
 https://pypi.python.org/pypi/miflora
 
-It also builds onthe original domoticz script created by Tristan:
+It also builds onthe original domoticz script created by Tristan:<br/>
 https://github.com/Tristan79/miflora
