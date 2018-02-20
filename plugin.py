@@ -162,7 +162,7 @@ class BasePlugin:
 			Domoticz.Log("conductivity = " + str(val_cond))
 			
 			# give bluetooth a little breathing room
-			time.sleep(0.2)
+			time.sleep(1)
 
 	
 	
