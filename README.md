@@ -1,6 +1,13 @@
 # Mi_Flower_mate_plugin
 A plugin for Domoticz, the open source home automation software, which allows it to easily connect to Xiaomi Mi Flower Mate devices.
 
+These are Bluetooth LE plant monitoring devices which cost about 12 dollars. They last up to a year on a coincell battery, and measure moisture, temperature, light and conductivity.
+https://wiki.hackerspace.pl/projects:xiaomi-flora
+
+The plugin creates a special switch. Toggle the switch to get fresh data from all sensors. By having a switch to poll for new data, it becomes easy to create timers and other fun integrations in scripts.
+
+The plugin now also has an "automatic" mode, where it will do a bluetooth scan for devices everytime Domoticz starts, and automatically add new devices it finds.
+
 
 ## Links
 Detailed installation instructions can be found on the Domoticz wiki:
@@ -29,9 +36,6 @@ Scan for your Flower Mates to find their mac-addresses:
   sudo hcitool lescan
 
 
-## To do
-
-Automatically scan and add devices.
 
 ## Thanks to
 
