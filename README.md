@@ -1,8 +1,16 @@
 # Mi_Flower_mate_plugin
 A plugin for Domoticz, the open source home automation software, which allows it to easily connect to Xiaomi Mi Flower Mate devices.
 
-## INSTALLATION
 
+## Links
+Detailed installation instructions can be found on the Domoticz wiki:
+https://www.domoticz.com/wiki/Plugins/Mi_flower_mate
+
+Discussion about the plugin can be found here:
+https://www.domoticz.com/forum/viewtopic.php?f=65&t=22281
+
+
+## Installation (short version)
 Install the plugin as usual. See: https://www.domoticz.com/wiki/Using_Python_plugins
 
 You also need the Bluepy library to be installed. If you don't mind that python 3.5 is installed, just enter these commands in the terminal:
@@ -21,14 +29,9 @@ Scan for your Flower Mates to find their mac-addresses:
   sudo hcitool lescan
 
 
-## Links
+## To do
 
-Detailed installation instructions can be found on the Domoticz wiki:
-https://www.domoticz.com/wiki/Plugins/Mi_flower_mate
-
-Discussion about the plugin can be found here:
-https://www.domoticz.com/forum/viewtopic.php?f=65&t=22281
-
+Automatically scan and add devices.
 
 ## Thanks to
 
