@@ -31,7 +31,9 @@ wget https://bootstrap.pypa.io/get-pip.py<br/>
 sudo python3 get-pip.py<br/>
 sudo python3 -m pip install bluepy<br/>
 
-Scan for your Flower Mates to find their mac-addresses:
+In automatic mode, the plugin will do bluetooth scans at startup, and integrate any Mi Flora Devices it finds. 
+
+In manual mode you can select which devices to add by entering their mac addresses on the hardware page. To find your Flower Mates' mac-addresses do a bluetooth scan:
 
   sudo hcitool lescan
 
