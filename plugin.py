@@ -44,7 +44,7 @@ class BasePlugin:
 		return 
 
 	def onStart(self):
-		Domoticz.Debugging(1)
+		#Domoticz.Debugging(1)
 		
 		sys.path.append("/usr/local/lib/python3.4/dist-packages")
 		sys.path.append("/usr/local/lib/python3.5/dist-packages")
