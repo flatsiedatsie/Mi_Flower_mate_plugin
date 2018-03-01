@@ -41,6 +41,7 @@ class BasePlugin:
 
 	def __init__(self): 
 		self.macs = []
+		self.currentlyPolling = 100
 		return 
 
 	def onStart(self):
@@ -53,7 +54,6 @@ class BasePlugin:
 			Domoticz.Error("Error loading Flora libraries")
 		
 		
-
 		Domoticz.Debug("Mi Flora - devices made so far (max 255): " + str(len(Devices)))
 		
 		# create master toggle switch
@@ -70,7 +70,6 @@ class BasePlugin:
 			self.macs = parseCSV(Parameters["Mode2"])
 			self.createSensors()
 		#Domoticz.Log("macs = {}".format(self.macs))
-	
 
 	def onStop(self):
 		Domoticz.Log("onStop called")
@@ -84,17 +83,23 @@ class BasePlugin:
 	def onCommand(self, Unit, Command, Level, Hue):
 		Domoticz.Log("onCommand called for Unit " + str(Unit) + ": Parameter '" + str(Command) + "', Level: " + str(Level))		
 		
+		Domoticz.Log("amount of Flower Mates to now ask for data: " + str(len(self.macs)) )
+		
 		# flip the switch icon, and then get the plant data.
 		if Unit == 1:
-			if str(Command) == "On":
-				Devices[Unit].Update(nValue=1,sValue="On")
-			if str(Command) == "Off":
-				Devices[Unit].Update(nValue=0,sValue="Off")
-			self.getPlantData()
+			Devices[Unit].Update(nValue=1,sValue="On")
+
+			#By setting this to 0, the polling function will run.
+			self.currentlyPolling = 0
 		  
 	
 	def onHeartbeat(self):
-		pass
+		# for now this uses the shelve database as its source of truth.
+		if( self.currentlyPolling < len(self.macs) ):
+			self.getPlantData(int(self.currentlyPolling))
+			if( self.currentlyPolling == len(self.macs) - 1 ):
+				Devices[1].Update(nValue=0,sValue="Off")
+			self.currentlyPolling = self.currentlyPolling + 1
 	
 	
 	# function to create corresponding sensors in Domoticz if there are Mi Flower Mates which don't have them yet.
@@ -141,50 +146,48 @@ class BasePlugin:
 
 
 	# function to poll a Flower Mate for its data
-	def getPlantData(self):
-		for idx, mac in enumerate(self.macs):
-			Domoticz.Log("getting data from sensor: "+str(mac))
-		 
-			poller = MiFloraPoller(str(mac), BluepyBackend)
-			Domoticz.Debug("Firmware: {}".format(poller.firmware_version()))
-			
-			val_bat  = int("{}".format(poller.parameter_value(MI_BATTERY)))
-			nValue = 0
-			
-			#moisture
-			
-			sensorNumber1 = (idx*4) + 2
-			val_moist = "{}".format(poller.parameter_value(MI_MOISTURE))
-			Devices[sensorNumber1].Update(nValue=nValue, sValue=val_moist, BatteryLevel=val_bat)
-			Domoticz.Log("moisture = " + str(val_moist))
-			
-			#temperature
-			
-			sensorNumber2 = (idx*4) + 3
-			val_temp = "{}".format(poller.parameter_value(MI_TEMPERATURE))
-			Devices[sensorNumber2].Update(nValue=nValue, sValue=val_temp, BatteryLevel=val_bat)
-			Domoticz.Log("temperature = " + str(val_temp))
-			
-			#light
-			
-			sensorNumber3 = (idx*4) + 4	
-			val_lux = "{}".format(poller.parameter_value(MI_LIGHT))
-			Devices[sensorNumber3].Update(nValue=nValue, sValue=val_lux, BatteryLevel=val_bat)
-			Domoticz.Log("light = " + str(val_lux))
-			
-			#fertility		
+	def getPlantData(self, idx):
+		#for idx, mac in enumerate(self.macs):
+		mac = self.macs[idx]
+		Domoticz.Log("getting data from sensor: "+str(mac))
+		poller = MiFloraPoller(str(mac), BluepyBackend)
+		Domoticz.Debug("Firmware: {}".format(poller.firmware_version()))
+
+		val_bat  = int("{}".format(poller.parameter_value(MI_BATTERY)))
+		nValue = 0
+
+		#moisture
+
+		sensorNumber1 = (idx*4) + 2
+		val_moist = "{}".format(poller.parameter_value(MI_MOISTURE))
+		Devices[sensorNumber1].Update(nValue=nValue, sValue=val_moist, BatteryLevel=val_bat)
+		Domoticz.Log("moisture = " + str(val_moist))
+
+		#temperature
+
+		sensorNumber2 = (idx*4) + 3
+		val_temp = "{}".format(poller.parameter_value(MI_TEMPERATURE))
+		Devices[sensorNumber2].Update(nValue=nValue, sValue=val_temp, BatteryLevel=val_bat)
+		Domoticz.Log("temperature = " + str(val_temp))
+
+		#light
+
+		sensorNumber3 = (idx*4) + 4	
+		val_lux = "{}".format(poller.parameter_value(MI_LIGHT))
+		Devices[sensorNumber3].Update(nValue=nValue, sValue=val_lux, BatteryLevel=val_bat)
+		Domoticz.Log("light = " + str(val_lux))
+
+		#fertility		
+
+		sensorNumber4 = (idx*4) + 5	
+		val_cond = "{}".format(poller.parameter_value(MI_CONDUCTIVITY))
+		Devices[sensorNumber4].Update(nValue=nValue, sValue=val_cond, BatteryLevel=val_bat)
+		Domoticz.Log("conductivity = " + str(val_cond))
 		
-			sensorNumber4 = (idx*4) + 5	
-			val_cond = "{}".format(poller.parameter_value(MI_CONDUCTIVITY))
-			Devices[sensorNumber4].Update(nValue=nValue, sValue=val_cond, BatteryLevel=val_bat)
-			Domoticz.Log("conductivity = " + str(val_cond))
-			
-			# give bluetooth a little breathing room
-			time.sleep(1)
 
 	# function to scan for devices, and store and compare the outcome
 	def floraScan(self):
-		Domoticz.Log("Scanning for Mi Flower Mate sensors..")
+		Domoticz.Log("Scanning for Mi Flower Mate sensors")
 				
 		#databaseFile=os.path.join(os.environ['HOME'],'XiaomiMiFlowerMates')
 		# first, let's get the list of devices we already know about
@@ -222,8 +225,6 @@ class BasePlugin:
 	
 		self.macs = knownSensors
 		self.createSensors()
-		#return knownSensors
-			
 
 	
 global _plugin
