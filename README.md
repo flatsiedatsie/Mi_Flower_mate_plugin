@@ -20,16 +20,17 @@ https://www.domoticz.com/forum/viewtopic.php?f=65&t=22281
 ## Installation (short version)
 Install the plugin as usual. See: https://www.domoticz.com/wiki/Using_Python_plugins
 
-You also need the Bluepy library to be installed. If you don't mind that python 3.5 is installed, just enter these commands in the terminal:
-
-  sudo apt-get install python3-pip libglib2.0-dev<br/>
-  sudo pip3 install bluepy<br/>
-
-Alternatively, you can try:
+You also need the Bluepy library to be installed.
 
 wget https://bootstrap.pypa.io/get-pip.py<br/>
 sudo python3 get-pip.py<br/>
 sudo python3 -m pip install bluepy<br/>
+
+Alternatively, you can use apt-get, but might install python 3.5 as well. If you are trying to stay on python 3.4, use the wget method above.
+
+  sudo apt-get install python3-pip libglib2.0-dev<br/>
+  sudo pip3 install bluepy<br/>
+  
 
 In automatic mode, the plugin will do bluetooth scans at startup, and integrate any Mi Flora Devices it finds. 
 
