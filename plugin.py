@@ -59,7 +59,7 @@ class BasePlugin:
 		# create master toggle switch
 		if 1 not in Devices:
 			Domoticz.Log("Creating the master Mi Flower Mate poll switch. Flip it to poll the sensors.")
-			Domoticz.Device(Name="push to update Mi Flowermates", Unit=1, TypeName="Switch", Switchtype="Push On Button", Image=9, Used=1).Create()
+			Domoticz.Device(Name="push to update Mi Flowermates", Unit=1, TypeName="Switch", Switchtype=9, Image=9, Used=1).Create()
 		
 		# get the mac addresses of the sensors
 		if Parameters["Mode1"] == 'auto':
@@ -83,7 +83,7 @@ class BasePlugin:
 		Domoticz.Log("onMessage called")
 
 	def onCommand(self, Unit, Command, Level, Hue):
-		Domoticz.Log("onCommand called for Unit " + str(Unit) + ": Parameter '" + str(Command) + "', Level: " + str(Level))		
+		#Domoticz.Log("onCommand called for Unit " + str(Unit) + ": Parameter '" + str(Command) + "', Level: " + str(Level))		
 		
 		Domoticz.Log("amount of Flower Mates to now ask for data: " + str(len(self.macs)) )
 		
