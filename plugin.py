@@ -45,7 +45,7 @@ class BasePlugin:
 		return 
 
 	def onStart(self):
-		#Domoticz.Debugging(1)
+		Domoticz.Debugging(1)
 		
 		sys.path.append("/usr/local/lib/python3.4/dist-packages")
 		sys.path.append("/usr/local/lib/python3.5/dist-packages")
@@ -59,7 +59,7 @@ class BasePlugin:
 		# create master toggle switch
 		if 1 not in Devices:
 			Domoticz.Log("Creating the master Mi Flower Mate poll switch. Flip it to poll the sensors.")
-			Domoticz.Device(Name="Flip to update Mi Flowermates", Unit=1, TypeName="Switch", Image=9, Used=1).Create()
+			Domoticz.Device(Name="push to update Mi Flowermates", Unit=1, TypeName="Switch", Switchtype="Push On Button", Image=9, Used=1).Create()
 		
 		# get the mac addresses of the sensors
 		if Parameters["Mode1"] == 'auto':
@@ -70,6 +70,8 @@ class BasePlugin:
 			self.macs = parseCSV(Parameters["Mode2"])
 			self.createSensors()
 		#Domoticz.Log("macs = {}".format(self.macs))
+		
+		#Devices[Unit].Update(nValue=1,sValue="Off")
 
 	def onStop(self):
 		Domoticz.Log("onStop called")
@@ -87,7 +89,7 @@ class BasePlugin:
 		
 		# flip the switch icon, and then get the plant data.
 		if Unit == 1:
-			Devices[Unit].Update(nValue=1,sValue="On")
+			#Devices[Unit].Update(nValue=1,sValue="Off") # best to always turn it off I guess.
 
 			#By setting this to 0, the polling function will run.
 			self.currentlyPolling = 0
