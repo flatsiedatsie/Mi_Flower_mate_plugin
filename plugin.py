@@ -59,7 +59,8 @@ class BasePlugin:
 		# create master toggle switch
 		if 1 not in Devices:
 			Domoticz.Log("Creating the master Mi Flower Mate poll switch. Flip it to poll the sensors.")
-			Domoticz.Device(Name="push to update Mi Flowermates", Unit=1, Type=17, Switchtype=9, Used=1).Create()
+			#Domoticz.Device(Name="push to update Mi Flowermates", Unit=1, Type=17, Switchtype=9, Used=1).Create()
+			Domoticz.Device(Name="update Mi Flowermates",  Unit=1, Type=17,  Switchtype=9).Create()
 		
 		# get the mac addresses of the sensors
 		if Parameters["Mode1"] == 'auto':
