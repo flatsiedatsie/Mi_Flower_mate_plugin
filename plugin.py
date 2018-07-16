@@ -209,7 +209,7 @@ class BasePlugin:
 		
 		#Next we scan to look for new sensors
 		try:
-			foundFloras = miflora_scanner.scan(BluepyBackend, 5)
+			foundFloras = miflora_scanner.scan(BluepyBackend, 3)
 			Domoticz.Log("Number of devices found via bluetooth scan = " + str(len(foundFloras)))
 		except:
 			foundFloras = []
