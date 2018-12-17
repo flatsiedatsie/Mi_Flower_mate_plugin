@@ -99,10 +99,13 @@ class BasePlugin:
 	def onHeartbeat(self):
 		# for now this uses the shelve database as its source of truth.
 		if( self.currentlyPolling < len(self.macs) ):
-			self.getPlantData(int(self.currentlyPolling))
-			if( self.currentlyPolling == len(self.macs) - 1 ):
-				Devices[1].Update(nValue=0,sValue="Off")
-			self.currentlyPolling = self.currentlyPolling + 1
+			try:
+				self.getPlantData(int(self.currentlyPolling))
+				if( self.currentlyPolling == len(self.macs) - 1 ):
+					Devices[1].Update(nValue=0,sValue="Off")
+				self.currentlyPolling = self.currentlyPolling + 1
+			except:
+				pass
 	
 	
 	# function to create corresponding sensors in Domoticz if there are Mi Flower Mates which don't have them yet.
@@ -123,7 +126,7 @@ class BasePlugin:
 					sensorName = sensorBaseName + "Moisture"
 					Domoticz.Debug("Creating first sensor, #"+str(sensorNumber))
 					Domoticz.Debug("Creating first sensor, name: "+str(sensorName))
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Percentage", Used=1).Create()   
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Moisture", Used=1).Create()   
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)
 
 					#temperature
@@ -153,40 +156,55 @@ class BasePlugin:
 		#for idx, mac in enumerate(self.macs):
 		mac = self.macs[idx]
 		Domoticz.Log("getting data from sensor: "+str(mac))
-		poller = MiFloraPoller(str(mac), BluepyBackend)
-		Domoticz.Debug("Firmware: {}".format(poller.firmware_version()))
+		try:
+			poller = MiFloraPoller(str(mac), BluepyBackend)
+			Domoticz.Debug("Firmware: {}".format(poller.firmware_version()))
+			val_bat  = int("{}".format(poller.parameter_value(MI_BATTERY)))
+                	nValue = 0
+		except:
+			Domoticz.Log("poller error")
 
-		val_bat  = int("{}".format(poller.parameter_value(MI_BATTERY)))
-		nValue = 0
+
 
 		#moisture
 
 		sensorNumber1 = (idx*4) + 2
-		val_moist = "{}".format(poller.parameter_value(MI_MOISTURE))
-		Devices[sensorNumber1].Update(nValue=nValue, sValue=val_moist, BatteryLevel=val_bat)
-		Domoticz.Log("moisture = " + str(val_moist))
+		try:
+			val_moist = "{}".format(poller.parameter_value(MI_MOISTURE))
+			Devices[sensorNumber1].Update(nValue=nValue, sValue=val_moist, BatteryLevel=val_bat)
+			Domoticz.Log("moisture = " + str(val_moist))
+		except:
+			Domoticz.Log("error getting moisture data")
 
 		#temperature
 
 		sensorNumber2 = (idx*4) + 3
-		val_temp = "{}".format(poller.parameter_value(MI_TEMPERATURE))
-		Devices[sensorNumber2].Update(nValue=nValue, sValue=val_temp, BatteryLevel=val_bat)
-		Domoticz.Log("temperature = " + str(val_temp))
+		try:
+			val_temp = "{}".format(poller.parameter_value(MI_TEMPERATURE))
+			Devices[sensorNumber2].Update(nValue=nValue, sValue=val_temp, BatteryLevel=val_bat)
+			Domoticz.Log("temperature = " + str(val_temp))
+		except:
+			Domoticz.Log("error getting temperature data")
 
 		#light
 
-		sensorNumber3 = (idx*4) + 4	
-		val_lux = "{}".format(poller.parameter_value(MI_LIGHT))
-		Devices[sensorNumber3].Update(nValue=nValue, sValue=val_lux, BatteryLevel=val_bat)
-		Domoticz.Log("light = " + str(val_lux))
+		sensorNumber3 = (idx*4) + 4
+		try:
+			val_lux = "{}".format(poller.parameter_value(MI_LIGHT))
+			Devices[sensorNumber3].Update(nValue=nValue, sValue=val_lux, BatteryLevel=val_bat)
+			Domoticz.Log("light = " + str(val_lux))
+		except:
+			Domoticz.Log("error getting light data")
 
 		#fertility		
 
-		sensorNumber4 = (idx*4) + 5	
-		val_cond = "{}".format(poller.parameter_value(MI_CONDUCTIVITY))
-		Devices[sensorNumber4].Update(nValue=nValue, sValue=val_cond, BatteryLevel=val_bat)
-		Domoticz.Log("conductivity = " + str(val_cond))
-		
+		sensorNumber4 = (idx*4) + 5
+		try:
+			val_cond = "{}".format(poller.parameter_value(MI_CONDUCTIVITY))
+			Devices[sensorNumber4].Update(nValue=nValue, sValue=val_cond, BatteryLevel=val_bat)
+			Domoticz.Log("conductivity = " + str(val_cond))
+		except:
+			Domoticz.Log("Error getting conductivity data")			
 
 	# function to scan for devices, and store and compare the outcome
 	def floraScan(self):
