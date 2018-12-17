@@ -103,9 +103,9 @@ class BasePlugin:
 				self.getPlantData(int(self.currentlyPolling))
 				if( self.currentlyPolling == len(self.macs) - 1 ):
 					Devices[1].Update(nValue=0,sValue="Off")
-				self.currentlyPolling = self.currentlyPolling + 1
 			except:
 				pass
+			self.currentlyPolling = self.currentlyPolling + 1
 	
 	
 	# function to create corresponding sensors in Domoticz if there are Mi Flower Mates which don't have them yet.
