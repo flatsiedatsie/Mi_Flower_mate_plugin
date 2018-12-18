@@ -160,7 +160,7 @@ class BasePlugin:
 			poller = MiFloraPoller(str(mac), BluepyBackend)
 			Domoticz.Debug("Firmware: {}".format(poller.firmware_version()))
 			val_bat  = int("{}".format(poller.parameter_value(MI_BATTERY)))
-                	nValue = 0
+			nValue = 0
 		except:
 			Domoticz.Log("poller error")
 
