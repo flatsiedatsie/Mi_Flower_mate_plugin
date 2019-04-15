@@ -171,7 +171,7 @@ class BasePlugin:
 		sensorNumber1 = (idx*4) + 2
 		try:
 			val_moist = "{}".format(poller.parameter_value(MI_MOISTURE))
-			Devices[sensorNumber1].Update(nValue=nValue, sValue=val_moist, BatteryLevel=val_bat)
+			Devices[sensorNumber1].Update(nValue=int(val_moist), sValue=val_moist, BatteryLevel=val_bat)
 			Domoticz.Log("moisture = " + str(val_moist))
 		except:
 			Domoticz.Log("error getting moisture data")
