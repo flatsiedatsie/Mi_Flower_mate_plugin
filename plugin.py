@@ -126,7 +126,7 @@ class BasePlugin:
 					sensorName = sensorBaseName + "Moisture"
 					Domoticz.Debug("Creating first sensor, #"+str(sensorNumber))
 					Domoticz.Debug("Creating first sensor, name: "+str(sensorName))
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Soil Moisture", Used=1).Create()   
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Percentage", Used=1).Create()   
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)
 
 					#temperature
