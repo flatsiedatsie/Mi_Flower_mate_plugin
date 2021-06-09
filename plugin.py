@@ -170,7 +170,7 @@ class BasePlugin:
 
 					sensorNumber = (idx*4) + 5
 					sensorName = sensorBaseName + "Conductivity"
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Custom", Used=1, Image=Images['Mi-Flower-Mate NPK'].ID), SubType="Custom Sensor", Options={'Custom':'1;µS/cm'} .Create()
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Custom", Used=1, Image=Images['Mi-Flower-Mate NPK'].ID), SubType=31, Options={"Custom":"1;µS/cm"} .Create()
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)
 
 
