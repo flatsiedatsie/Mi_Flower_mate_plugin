@@ -56,11 +56,34 @@ class BasePlugin:
 		
 		Domoticz.Debug("Mi Flora - devices made so far (max 255): " + str(len(Devices)))
 		
+		# create cusmtom icons if needed
+		if ("Mi-Flower-Mate Light"     not in Images):
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate light switch")
+                        Domoticz.Image('Mi-Flower-mate Light.zip').Create()
+			
+		if ("Mi-Flower-Mate"     not in Images):
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate poll switch")
+                        Domoticz.Image('Mi Flower Mate.zip').Create()
+			
+		if ("Mi-Flower-Mate Moist"     not in Images):
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate moisture switch")
+                        Domoticz.Image('Mi-Flower-mate Moist.zip').Create()
+		
+		if ("Mi-Flower-Mate Temp"     not in Images):
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate temperature switch")
+                        Domoticz.Image('Mi-Flower-mate Temp.zip').Create()
+		
+		if ("Mi-Flower-Mate NPK"     not in Images):
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate conductivity switch")
+                        Domoticz.Image('Mi-Flower-mate NPK.zip').Create()
+
+		
 		# create master toggle switch
 		if 1 not in Devices:
 			Domoticz.Log("Creating the master Mi Flower Mate poll switch. Flip it to poll the sensors.")
 			#Domoticz.Device(Name="push to update Mi Flowermates", Unit=1, Type=17, Switchtype=9, Used=1).Create()
-			Domoticz.Device(Name="update Mi Flowermates",  Unit=1, Type=17,  Switchtype=9, Used=1).Create()
+			#Domoticz.Device(Name="update Mi Flowermates",  Unit=1, Type=17,  Switchtype=9, Used=1).Create()
+			Domoticz.Device(Name="update Mi Flowermates",  Unit=1, Type=17,  Switchtype=9, Used=1, Image=Images['Mi-Flower-Mate'].ID).Create()
 		
 		# get the mac addresses of the sensors
 		if Parameters["Mode1"] == 'auto':
@@ -126,28 +149,28 @@ class BasePlugin:
 					sensorName = sensorBaseName + "Moisture"
 					Domoticz.Debug("Creating first sensor, #"+str(sensorNumber))
 					Domoticz.Debug("Creating first sensor, name: "+str(sensorName))
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Percentage", Used=1).Create()   
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Percentage", Used=1, Image=Images['Mi-Flower-Mate Moist'].ID).Create()   
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)
 
 					#temperature
 
 					sensorNumber = (idx*4) + 3
 					sensorName = sensorBaseName + "Temperature"
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Temperature", Used=1).Create()
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Temperature", Used=1, Image=Images['Mi-Flower-Mate Temp'].ID).Create()
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)
 
 					#light
 
 					sensorNumber = (idx*4) + 4
 					sensorName = sensorBaseName + "Light"
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Illumination", Used=1).Create()
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Illumination", Used=1, Image=Images['Mi-Flower-Mate Light'].ID).Create()
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)			
 
 					#fertility		
 
 					sensorNumber = (idx*4) + 5
 					sensorName = sensorBaseName + "Conductivity"
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Custom", Used=1).Create()
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Custom", Used=1, Image=Images['Mi-Flower-Mate NPK'].ID), SubType="Custom Sensor", Options={'Custom':'1;µS/cm'} .Create()
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)
 
 
