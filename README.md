@@ -8,10 +8,10 @@ The plugin creates a special switch. Toggle the switch to get fresh data from al
 
 The plugin also creates for each sensor 4 devices :
 
-    A Temperature device for the temperature read from the sensor
+    A Temperature device for the air temperature read from the sensor
     A Moisture device for the soil humidity percentage read from the sensor
     A Light device for reading the number of Lux from the sensor
-    A Conductivity device for reading the "fertility" from the sensor (micro Siemens by centimeter)
+    A Conductivity device for reading the "soil fertility" from the sensor (micro Siemens by centimeter)
   
 
 The plugin now also has an "automatic" mode, where it will do a bluetooth scan for devices everytime Domoticz starts, and automatically add new devices it finds.
