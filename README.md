@@ -7,10 +7,12 @@ https://wiki.hackerspace.pl/projects:xiaomi-flora
 The plugin creates a special switch. Toggle the switch to get fresh data from all sensors. By having a switch to poll for new data, it becomes easy to create timers and other fun integrations in scripts. Remember that frequent polling results in draining batteries of the devices.
 
 The plugin also creates for each sensor 4 devices :
-  A Temperature device for the temperature read from the sensor
-  A Moisture device for the humidity percentage read from the sensor
-  A Light device for reading the number of Lux from the device
-  A Conductivity device for reading the "fertility" from the device
+
+    A Temperature device for the temperature read from the sensor
+    A Moisture device for the soil humidity percentage read from the sensor
+    A Light device for reading the number of Lux from the sensor
+    A Conductivity device for reading the "fertility" from the sensor (micro Siemens by centimeter)
+  
 
 The plugin now also has an "automatic" mode, where it will do a bluetooth scan for devices everytime Domoticz starts, and automatically add new devices it finds.
 
