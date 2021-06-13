@@ -56,11 +56,31 @@ class BasePlugin:
 		
 		Domoticz.Debug("Mi Flora - devices made so far (max 255): " + str(len(Devices)))
 		
+		# create custom icons
+		if "Mi-Flower-Mate" not in Images:
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate poll switch")
+			Domoticz.Image(Filename="Mi-Flower-Mate.zip").Create()
+
+		if ("Mi-Flower-Mate-Light" not in Images):
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate light switch")
+			Domoticz.Image(Filename="Mi-Flower-Mate-Light.zip").Create()
+
+		if ("Mi-Flower-Mate-Moist" not in Images):
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate moisture switch")
+			Domoticz.Image(Filename="Mi-Flower-Mate-Moist.zip").Create()
+
+		if ("Mi-Flower-Mate-Temp" not in Images):
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate temperature switch")
+			Domoticz.Image(Filename="Mi-Flower-Mate-Temp.zip").Create()
+
+		if ("Mi-Flower-Mate-NPK" not in Images):
+			Domoticz.Log("Creating custom icon for the master Mi Flower Mate conductivity switch")
+			Domoticz.Image(Filename="Mi-Flower-Mate-NPK.zip").Create()
+
+
 		# create master toggle switch
 		if 1 not in Devices:
-			Domoticz.Log("Creating the master Mi Flower Mate poll switch. Flip it to poll the sensors.")
-			#Domoticz.Device(Name="push to update Mi Flowermates", Unit=1, Type=17, Switchtype=9, Used=1).Create()
-			Domoticz.Device(Name="update Mi Flowermates",  Unit=1, Type=17,  Switchtype=9, Used=1).Create()
+			Domoticz.Device(Name="update Mi Flowermates",  Unit=1, Type=17,  Switchtype=9, Image=Images['Mi-Flower-Mate'].ID, Used=1).Create()
 		
 		# get the mac addresses of the sensors
 		if Parameters["Mode1"] == 'auto':
@@ -126,28 +146,28 @@ class BasePlugin:
 					sensorName = sensorBaseName + "Moisture"
 					Domoticz.Debug("Creating first sensor, #"+str(sensorNumber))
 					Domoticz.Debug("Creating first sensor, name: "+str(sensorName))
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Percentage", Used=1).Create()   
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Percentage", Image=Images['Mi-Flower-Mate-Moist'].ID, Used=1).Create()   
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)
 
 					#temperature
 
 					sensorNumber = (idx*4) + 3
 					sensorName = sensorBaseName + "Temperature"
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Temperature", Used=1).Create()
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Temperature", Image=Images['Mi-Flower-Mate-Temp'].ID, Used=1).Create()
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)
 
 					#light
 
 					sensorNumber = (idx*4) + 4
 					sensorName = sensorBaseName + "Light"
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Illumination", Used=1).Create()
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Illumination", Image=Images['Mi-Flower-Mate-Light'].ID, Used=1).Create()
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)			
 
 					#fertility		
 
 					sensorNumber = (idx*4) + 5
 					sensorName = sensorBaseName + "Conductivity"
-					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Custom", Used=1).Create()
+					Domoticz.Device(Name=sensorName, Unit=sensorNumber, TypeName="Custom", Used=1,Subtype=31, Image=Images['Mi-Flower-Mate-NPK'].ID, Options={"Custom":"1;µS/cm"}).Create()
 					Domoticz.Log("Created device: "+Devices[sensorNumber].Name)
 
 
@@ -204,7 +224,7 @@ class BasePlugin:
 			Devices[sensorNumber4].Update(nValue=nValue, sValue=val_cond, BatteryLevel=val_bat)
 			Domoticz.Log("conductivity = " + str(val_cond))
 		except:
-			Domoticz.Log("Error getting conductivity data")			
+			Domoticz.Log("Error getting conductivity data")		
 
 	# function to scan for devices, and store and compare the outcome
 	def floraScan(self):
@@ -273,4 +293,3 @@ def parseCSV(strCSV):
 	for value in strCSV.split(","):
 		listvals.append(value)
 	return listvals
-
