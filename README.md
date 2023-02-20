@@ -1,4 +1,7 @@
 # Mi_Flower_mate_plugin
+
+This plugin is no longer maintained, as I am now using https://www.candlesmarthome.com
+
 A plugin for Domoticz, the open source home automation software, which allows it to easily connect to Xiaomi Mi Flower Mate devices. To be noted : it may also works for other sensors than Xiaomi like E-Greetshopping (https://www.amazon.ca/Greetshopping-Monitor-Moisture-Detector-Suitable/dp/B08X2B18R5) or others that are compliant with Android Flower care App for instance (https://play.google.com/store/apps/details?id=com.huahuacaocao.flowercare&hl=en&gl=US)
 
 These are Bluetooth LE plant monitoring devices which cost about 12 dollars. They last up to a year on a coincell battery, and measure moisture, temperature, light and conductivity.
